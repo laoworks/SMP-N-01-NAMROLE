@@ -1,19 +1,15 @@
 import Alpine from 'alpinejs';
+import collapse from '@alpinejs/collapse';
 
-// Untuk Filament Forms
-import mask from '@alpinejs/mask'
-import intersect from '@alpinejs/intersect'
-
-// Register Alpine plugins
-Alpine.plugin(mask)
-Alpine.plugin(intersect)
+// Register Collapse plugin (HARUS SEBELUM Alpine.start)
+Alpine.plugin(collapse);
 
 // Start Alpine
-window.Alpine = Alpine
-Alpine.start()
+window.Alpine = Alpine;
+Alpine.start();
 
-// Untuk Livewire (required untuk Filament)
+// Livewire (required untuk Filament)
 import { Livewire, Alpine as LivewireAlpine } from '../../vendor/livewire/livewire/dist/livewire.esm';
 
-LivewireAlpine(Alpine)
-Livewire.start()
+LivewireAlpine(Alpine);
+Livewire.start();
