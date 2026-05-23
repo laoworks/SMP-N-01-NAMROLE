@@ -71,3 +71,20 @@ Route::get('/alumni/jurusan/{jurusanId}', [AlumniController::class, 'jurusan'])-
 
 // Search
 Route::get('/search', [SearchController::class, 'index'])->name('search');
+
+Route::get('/storage-link', function () {
+
+    $target = storage_path('app/public');
+    $link = public_path('storage');
+
+    // Jika link belum ada
+    if (!file_exists($link)) {
+
+        // Coba symlink native PHP
+        symlink($target, $link);
+
+        return 'Symlink berhasil dibuat.';
+    }
+
+    return 'Symlink sudah ada.';
+});
