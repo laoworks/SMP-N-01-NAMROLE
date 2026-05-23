@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $settings->nama_website ?? 'Website Sekolah' }} - {{ $title ?? 'Home' }}</title>
+    <title>{{ (isset($settings) && $settings) ? $settings->nama_website : 'Website Sekolah' }} - {{ $title ?? 'Home' }}</title>
 
     <!-- Favicon -->
-    @if($settings && $settings->favicon)
+    @if(isset($settings) && $settings && $settings->favicon)
         <link rel="icon" type="image/x-icon" href="{{ asset('storage/' . $settings->favicon) }}">
     @endif
 
@@ -179,7 +179,7 @@
         </a>
     @endif
 
-    <!-- AOS Script - Diletakkan di akhir body -->
+    <!-- AOS Script -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
@@ -190,51 +190,27 @@
             const isMobile = window.innerWidth < 768;
 
             // Inisialisasi AOS
-            AOS.init({
-                duration: isMobile ? 500 : 800,
-                offset: isMobile ? 30 : 80,
-                delay: 0,
-                once: true,
-                easing: 'ease-out-cubic',
-                mirror: false,
-                startEvent: 'DOMContentLoaded',
-                disable: false
-            });
-
-            // Refresh AOS setelah gambar loading
-            const images = document.querySelectorAll('img');
-            let loadedImages = 0;
-
-            if (images.length > 0) {
-                images.forEach(img => {
-                    if (img.complete) {
-                        loadedImages++;
-                    } else {
-                        img.addEventListener('load', () => {
-                            loadedImages++;
-                            if (loadedImages === images.length) {
-                                AOS.refresh();
-                            }
-                        });
-                    }
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: isMobile ? 500 : 800,
+                    offset: isMobile ? 30 : 80,
+                    delay: 0,
+                    once: true,
+                    easing: 'ease-out-cubic',
+                    mirror: false
                 });
-            }
 
-            // Force refresh AOS setelah 1 detik
-            setTimeout(() => {
-                AOS.refresh();
-            }, 1000);
+                // Refresh AOS setelah gambar loading
+                setTimeout(() => {
+                    AOS.refresh();
+                }, 500);
+            }
         });
 
         // Fallback jika AOS belum terload
         window.addEventListener('load', function() {
             if (typeof AOS !== 'undefined') {
                 AOS.refresh();
-            } else {
-                // Jika AOS tidak terload, langsung tampilkan semua elemen
-                document.querySelectorAll('[data-aos]').forEach(el => {
-                    el.classList.add('aos-animate');
-                });
             }
         });
 
