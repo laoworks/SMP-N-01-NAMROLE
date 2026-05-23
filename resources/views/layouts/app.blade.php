@@ -23,8 +23,9 @@
     <!-- Swiper JS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 
-    <!-- Alpine JS -->
+    <!-- Alpine JS with Collapse Plugin -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
 
     <style>
         /* ========== CSS VARIABLES - WARNA KONSISTEN ========== */
@@ -184,6 +185,11 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script>
+        // Register Alpine plugins
+        document.addEventListener('alpine:init', () => {
+            // Alpine Collapse sudah otomatis terdaftar via CDN
+        });
+
         // Inisialisasi AOS setelah semua konten loading
         document.addEventListener('DOMContentLoaded', function() {
             // Deteksi device mobile
