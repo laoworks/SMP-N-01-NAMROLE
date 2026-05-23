@@ -14,7 +14,7 @@
     <div class="container relative px-4 py-12 mx-auto sm:px-6 lg:px-8 lg:py-24 md:py-16">
         <div class="grid items-center grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-20 md:gap-12">
             <!-- LEFT CONTENT -->
-            <div data-aos="fade-right" data-aos-duration="800">
+            <div data-aos="fade-right" data-aos-duration="600" data-aos-delay="0">
                 <!-- Badge -->
                 <div class="inline-flex items-center gap-2 px-3 py-1.5 mb-4 bg-white border rounded-full shadow-sm md:px-4 md:py-2 md:mb-6" style="border-color: var(--primary-100)">
                     <span class="w-1.5 h-1.5 rounded-full animate-pulse md:w-2 md:h-2" style="background-color: var(--primary)"></span>
@@ -90,7 +90,7 @@
             </div>
 
             <!-- RIGHT CONTENT -->
-            <div class="relative" data-aos="fade-left" data-aos-duration="800">
+            <div class="relative" data-aos="fade-left" data-aos-duration="600" data-aos-delay="0">
                 <div class="relative rounded-2xl md:rounded-[32px] overflow-hidden shadow-xl transition-all duration-500 hover:shadow-2xl">
                     @if($sliders->count() > 0 && $sliders->first()->gambar)
                         <img src="{{ asset('storage/' . $sliders->first()->gambar) . '?v=' . time() }}"
@@ -158,7 +158,7 @@
 @if(isset($sambutan) || isset($fotoKepalaSekolah))
 <section class="py-12 md:py-16 lg:py-20" style="background: linear-gradient(135deg, var(--primary-50) 0%, white 100%)">
     <div class="container px-4 mx-auto sm:px-6 lg:px-8">
-        <div class="mb-8 text-center md:mb-12" data-aos="fade-up">
+        <div class="mb-8 text-center md:mb-12" data-aos="fade-up" data-aos-duration="600" data-aos-delay="0">
             <div class="inline-flex items-center gap-2 px-3 py-1.5 mb-4 bg-white border rounded-full shadow-sm md:px-4 md:py-2 md:mb-6" style="border-color: var(--primary-100)">
                 <span class="w-1.5 h-1.5 rounded-full md:w-2 md:h-2" style="background-color: var(--primary)"></span>
                 <span class="text-xs font-medium md:text-sm" style="color: var(--primary)">Sambutan</span>
@@ -171,7 +171,7 @@
 
         <div class="grid items-center grid-cols-1 gap-8 lg:grid-cols-2 md:gap-12 lg:gap-12">
             <!-- Foto Kepala Sekolah -->
-            <div class="relative order-2 lg:order-1" data-aos="fade-right">
+            <div class="relative order-2 lg:order-1" data-aos="fade-right" data-aos-duration="600" data-aos-delay="0">
                 <div class="relative max-w-xs mx-auto md:max-w-sm">
                     <div class="relative overflow-hidden shadow-xl rounded-xl md:rounded-2xl">
                         @if(isset($fotoKepalaSekolah) && $fotoKepalaSekolah && file_exists(public_path('storage/' . $fotoKepalaSekolah)))
@@ -195,7 +195,7 @@
             </div>
 
             <!-- Sambutan Content -->
-            <div class="order-1 lg:order-2" data-aos="fade-left">
+            <div class="order-1 lg:order-2" data-aos="fade-left" data-aos-duration="600" data-aos-delay="0">
                 <div class="relative">
                     <svg class="absolute w-8 h-8 -top-4 -left-4 text-primary/20 md:w-10 md:h-10 md:-top-5 md:-left-5 lg:w-12 lg:h-12 lg:-top-6 lg:-left-6" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
@@ -243,7 +243,7 @@
 <!-- ==================== PROFIL SECTION (RINGKASAN) ==================== -->
 <section class="py-12 bg-white md:py-16 lg:py-20">
     <div class="container px-4 mx-auto sm:px-6 lg:px-8">
-        <div class="mb-8 text-center md:mb-12" data-aos="fade-up">
+        <div class="mb-8 text-center md:mb-12" data-aos="fade-up" data-aos-duration="600" data-aos-delay="0">
             <div class="inline-flex items-center gap-2 px-3 py-1.5 mb-4 bg-white border rounded-full shadow-sm md:px-4 md:py-2 md:mb-6" style="border-color: var(--primary-100)">
                 <span class="w-1.5 h-1.5 rounded-full md:w-2 md:h-2" style="background-color: var(--primary)"></span>
                 <span class="text-xs font-medium md:text-sm" style="color: var(--primary)">Profil</span>
@@ -255,7 +255,7 @@
         </div>
 
         <div class="grid items-center grid-cols-1 gap-8 lg:grid-cols-2 md:gap-12 lg:gap-16">
-            <div data-aos="fade-right">
+            <div data-aos="fade-right" data-aos-duration="600" data-aos-delay="0">
                 <div class="relative overflow-hidden shadow-lg rounded-xl md:rounded-2xl">
                     @if(isset($profil) && $profil && $profil->logo)
                         <img src="{{ asset('storage/' . $profil->logo) }}" alt="Profil" class="object-cover w-full">
@@ -268,7 +268,7 @@
                     @endif
                 </div>
             </div>
-            <div data-aos="fade-left">
+            <div data-aos="fade-left" data-aos-duration="600" data-aos-delay="0">
                 <h3 class="mb-3 text-xl font-bold md:text-2xl lg:text-3xl" style="color: var(--gray-800)">Tentang Kami</h3>
                 <p class="mb-4 text-sm leading-relaxed text-gray-600 md:text-base lg:text-lg">
                     {{ (isset($profil) && $profil && $profil->sejarah) ? strip_tags(Str::limit($profil->sejarah, 300)) : 'Kami adalah lembaga pendidikan yang berdedikasi untuk memberikan pendidikan berkualitas bagi generasi penerus bangsa.' }}
@@ -315,7 +315,7 @@
 <section class="py-12 md:py-16 lg:py-20" style="background-color: var(--gray-50)">
     <div class="container px-4 mx-auto sm:px-6 lg:px-8">
         <div class="flex flex-col items-center justify-between gap-4 mb-8 sm:flex-row md:mb-12">
-            <div data-aos="fade-right" class="text-center sm:text-left">
+            <div data-aos="fade-right" data-aos-duration="600" data-aos-delay="0" class="text-center sm:text-left">
                 <div class="inline-flex items-center gap-2 px-3 py-1.5 mb-3 bg-white border rounded-full shadow-sm md:px-4 md:py-2 md:mb-4" style="border-color: var(--primary-100)">
                     <span class="w-1.5 h-1.5 rounded-full md:w-2 md:h-2" style="background-color: var(--primary)"></span>
                     <span class="text-xs font-medium md:text-sm" style="color: var(--primary)">Berita</span>
@@ -325,7 +325,7 @@
                 </h2>
                 <div class="w-16 h-0.5 mt-2 rounded-full md:w-20 md:h-1" style="background-color: var(--primary)"></div>
             </div>
-            <a href="{{ route('berita') }}" class="flex items-center gap-1 text-sm text-primary hover:underline md:text-base" data-aos="fade-left">
+            <a href="{{ route('berita') }}" class="flex items-center gap-1 text-sm text-primary hover:underline md:text-base" data-aos="fade-left" data-aos-duration="600" data-aos-delay="0">
                 Lihat Semua
                 <svg class="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -335,7 +335,7 @@
 
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 md:gap-8">
             @foreach($beritaTerbaru as $berita)
-            <div class="overflow-hidden transition-all duration-300 bg-white shadow-md rounded-xl hover:shadow-xl group" data-aos="fade-up" data-aos-delay="{{ $loop->iteration * 100 }}">
+            <div class="overflow-hidden transition-all duration-300 bg-white shadow-md rounded-xl hover:shadow-xl group" data-aos="fade-up" data-aos-duration="600" data-aos-delay="{{ $loop->iteration * 50 }}">
                 @if($berita->gambar_utama)
                     <div class="overflow-hidden h-44 md:h-48 lg:h-52">
                         <img src="{{ asset('storage/' . $berita->gambar_utama) }}" alt="{{ $berita->judul }}" class="object-cover w-full h-full transition duration-500 group-hover:scale-110">
@@ -365,7 +365,7 @@
 @if($albums->count() > 0 || $videos->count() > 0)
 <section class="py-12 bg-white md:py-16 lg:py-20">
     <div class="container px-4 mx-auto sm:px-6 lg:px-8">
-        <div class="mb-8 text-center md:mb-12" data-aos="fade-up">
+        <div class="mb-8 text-center md:mb-12" data-aos="fade-up" data-aos-duration="600" data-aos-delay="0">
             <div class="inline-flex items-center gap-2 px-3 py-1.5 mb-4 bg-white border rounded-full shadow-sm md:px-4 md:py-2 md:mb-6" style="border-color: var(--primary-100)">
                 <span class="w-1.5 h-1.5 rounded-full md:w-2 md:h-2" style="background-color: var(--primary)"></span>
                 <span class="text-xs font-medium md:text-sm" style="color: var(--primary)">Galeri</span>
@@ -450,7 +450,7 @@
 <!-- ==================== KONTAK SECTION ==================== -->
 <section class="py-12 md:py-16 lg:py-20" style="background-color: var(--gray-50)">
     <div class="container px-4 mx-auto sm:px-6 lg:px-8">
-        <div class="mb-8 text-center md:mb-12" data-aos="fade-up">
+        <div class="mb-8 text-center md:mb-12" data-aos="fade-up" data-aos-duration="600" data-aos-delay="0">
             <div class="inline-flex items-center gap-2 px-3 py-1.5 mb-4 bg-white border rounded-full shadow-sm md:px-4 md:py-2 md:mb-6" style="border-color: var(--primary-100)">
                 <span class="w-1.5 h-1.5 rounded-full md:w-2 md:h-2" style="background-color: var(--primary)"></span>
                 <span class="text-xs font-medium md:text-sm" style="color: var(--primary)">Kontak</span>
@@ -464,7 +464,7 @@
 
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
             <!-- Info Kontak -->
-            <div class="p-5 bg-white shadow-lg rounded-xl md:p-6 md:rounded-2xl" style="border: 1px solid var(--primary-100)" data-aos="fade-right">
+            <div class="p-5 bg-white shadow-lg rounded-xl md:p-6 md:rounded-2xl" style="border: 1px solid var(--primary-100)" data-aos="fade-right" data-aos-duration="600" data-aos-delay="0">
                 <div class="space-y-3 md:space-y-4">
                     <div class="flex items-center gap-3 md:gap-4">
                         <div class="flex items-center justify-center w-10 h-10 rounded-full md:w-12 md:h-12" style="background-color: var(--primary-100)">
@@ -504,7 +504,7 @@
             </div>
 
             <!-- Form Kontak Singkat -->
-            <div class="p-5 bg-white shadow-lg rounded-xl md:p-6 md:rounded-2xl" style="border: 1px solid var(--primary-100)" data-aos="fade-left">
+            <div class="p-5 bg-white shadow-lg rounded-xl md:p-6 md:rounded-2xl" style="border: 1px solid var(--primary-100)" data-aos="fade-left" data-aos-duration="600" data-aos-delay="0">
                 <h3 class="mb-3 text-base font-bold md:text-lg md:mb-4" style="color: var(--gray-800)">Kirim Pesan</h3>
                 <form action="{{ route('kontak.store') }}" method="POST">
                     @csrf
@@ -565,6 +565,14 @@ html {
 /* Hover effect yang lebih halus */
 .transition-all {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Optimasi AOS untuk performa */
+[data-aos] {
+    pointer-events: none;
+}
+[data-aos].aos-animate {
+    pointer-events: auto;
 }
 </style>
 
