@@ -137,7 +137,7 @@
         </div>
 
         <!-- Desktop Layout -->
-        <div class="hidden grid-cols-1 gap-8 md:grid sm:grid-cols-2 lg:grid-cols-4 md:gap-12 lg:gap-8 md:block">
+        <div class="hidden grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 md:gap-12 lg:gap-8 md:block">
             <!-- About Section -->
             <div>
                 <div class="flex items-center gap-3 mb-4">
