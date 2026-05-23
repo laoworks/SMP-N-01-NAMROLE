@@ -13,6 +13,7 @@ use App\Http\Controllers\Frontend\PrestasiController;
 use App\Http\Controllers\Frontend\FasilitasController;
 use App\Http\Controllers\Frontend\KalenderController;
 use App\Http\Controllers\Frontend\SearchController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*

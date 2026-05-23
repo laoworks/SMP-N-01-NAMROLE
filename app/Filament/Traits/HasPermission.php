@@ -8,21 +8,27 @@ trait HasPermission
 {
     protected static function canViewAny(): bool
     {
-        return auth()->check(); // Ganti jadi ini
+        // Biarkan akses ke halaman login
+        if (request()->routeIs('filament.admin.auth.login')) {
+            return true;
+        }
+
+        // Untuk halaman lain, harus login
+        return Auth::check();
     }
 
     protected static function canCreate(): bool
     {
-        return auth()->check();
+        return Auth::check();
     }
 
     protected static function canEdit($record): bool
     {
-        return auth()->check();
+        return Auth::check();
     }
 
     protected static function canDelete($record): bool
     {
-        return auth()->check();
+        return Auth::check();
     }
 }
