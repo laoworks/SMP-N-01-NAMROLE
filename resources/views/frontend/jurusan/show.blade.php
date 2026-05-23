@@ -1,69 +1,117 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="bg-gray-50 py-16">
-    <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Main Content -->
-            <div class="lg:col-span-2">
-                <div class="bg-white rounded-xl shadow-md overflow-hidden">
-                    @if($jurusan->gambar)
-                        <img src="{{ asset('storage/' . $jurusan->gambar) }}" alt="{{ $jurusan->nama_jurusan }}" class="w-full h-64 object-cover">
-                    @endif
-                    <div class="p-6">
-                        <div class="inline-block bg-primary-light text-primary text-xs px-2 py-1 rounded mb-3">
-                            {{ $jurusan->kode_jurusan }}
-                        </div>
-                        <h1 class="text-3xl font-bold text-gray-800 mb-4">{{ $jurusan->nama_jurusan }}</h1>
+<section class="relative overflow-hidden bg-white">
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-0 right-0 w-[500px] h-[500px] rounded-full blur-3xl" style="background-color: var(--primary-50)"></div>
+        <div class="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full blur-3xl opacity-30" style="background-color: var(--primary-50)"></div>
+    </div>
 
-                        <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">Deskripsi Jurusan</h3>
-                        <div class="prose max-w-none">
+    <div class="container relative px-4 py-16 mx-auto sm:px-6 lg:px-8 lg:py-20">
+        <div class="max-w-5xl mx-auto">
+            <nav class="flex mb-6 text-sm" style="color: var(--gray-500)">
+                <a href="{{ route('home') }}" class="transition hover:text-primary">Beranda</a>
+                <span class="mx-2">/</span>
+                <a href="{{ route('jurusan.index') }}" class="transition hover:text-primary">Jurusan</a>
+                <span class="mx-2">/</span>
+                <span style="color: var(--gray-700)">{{ $jurusan->nama_jurusan }}</span>
+            </nav>
+
+            <div class="overflow-hidden bg-white shadow-xl rounded-2xl" style="border: 1px solid var(--primary-100)">
+                <!-- Header -->
+                @if($jurusan->gambar && file_exists(public_path('storage/' . $jurusan->gambar)))
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="{{ asset('storage/' . $jurusan->gambar) . '?v=' . time() }}"
+                             alt="{{ $jurusan->nama_jurusan }}"
+                             class="object-cover w-full h-full">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-6">
+                            <div class="inline-block px-3 py-1 mb-2 text-sm font-semibold rounded-full" style="background-color: var(--primary); color: white">
+                                {{ $jurusan->kode_jurusan }}
+                            </div>
+                            <h1 class="text-3xl font-bold text-white">{{ $jurusan->nama_jurusan }}</h1>
+                        </div>
+                    </div>
+                @else
+                    <div class="relative h-48 overflow-hidden" style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)">
+                        <div class="absolute inset-0 bg-black/20"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-6">
+                            <div class="inline-block px-3 py-1 mb-2 text-sm font-semibold rounded-full" style="background-color: white; color: var(--primary)">
+                                {{ $jurusan->kode_jurusan }}
+                            </div>
+                            <h1 class="text-3xl font-bold text-white">{{ $jurusan->nama_jurusan }}</h1>
+                        </div>
+                    </div>
+                @endif
+
+                <div class="p-8">
+                    <!-- Deskripsi -->
+                    <div class="mb-8">
+                        <h2 class="mb-4 text-xl font-bold" style="color: var(--gray-800)">📖 Deskripsi Jurusan</h2>
+                        <div class="prose max-w-none" style="color: var(--gray-600)">
                             {!! $jurusan->deskripsi !!}
                         </div>
+                    </div>
 
-                        <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">Kurikulum</h3>
-                        <div class="prose max-w-none">
+                    <!-- Kurikulum -->
+                    @if($jurusan->kurikulum)
+                    <div class="mb-8">
+                        <h2 class="mb-4 text-xl font-bold" style="color: var(--gray-800)">📚 Kurikulum</h2>
+                        <div class="prose max-w-none" style="color: var(--gray-600)">
                             {!! $jurusan->kurikulum !!}
                         </div>
+                    </div>
+                    @endif
 
-                        <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">Prospek Karir</h3>
-                        <div class="prose max-w-none">
+                    <!-- Prospek Karir -->
+                    @if($jurusan->prospek_karir)
+                    <div class="mb-8">
+                        <h2 class="mb-4 text-xl font-bold" style="color: var(--gray-800)">💼 Prospek Karir</h2>
+                        <div class="prose max-w-none" style="color: var(--gray-600)">
                             {!! $jurusan->prospek_karir !!}
                         </div>
+                    </div>
+                    @endif
 
-                        <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">Fasilitas Jurusan</h3>
-                        <div class="prose max-w-none">
+                    <!-- Fasilitas Jurusan -->
+                    @if($jurusan->fasilitas)
+                    <div class="mb-8">
+                        <h2 class="mb-4 text-xl font-bold" style="color: var(--gray-800)">🏫 Fasilitas Jurusan</h2>
+                        <div class="prose max-w-none" style="color: var(--gray-600)">
                             {!! $jurusan->fasilitas !!}
                         </div>
                     </div>
-                </div>
-            </div>
+                    @endif
 
-            <!-- Sidebar -->
-            <div>
-                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
-                    <h3 class="text-lg font-bold text-gray-800 mb-4">Jurusan Lainnya</h3>
-                    <div class="space-y-3">
-                        @foreach($jurusans as $item)
-                            @if($item->id != $jurusan->id)
-                            <a href="{{ route('jurusan.show', $item->id) }}" class="block p-3 bg-gray-50 rounded-lg hover:bg-primary-light transition">
-                                <div class="font-semibold text-gray-800">{{ $item->nama_jurusan }}</div>
-                                <div class="text-xs text-gray-500">{{ $item->singkatan }}</div>
-                            </a>
-                            @endif
-                        @endforeach
+                    <!-- Tombol Daftar -->
+                    <div class="pt-4 text-center">
+                        <a href="{{ route('ppdb') }}" class="inline-flex items-center gap-2 px-8 py-3 font-semibold text-white transition rounded-lg hover:shadow-lg" style="background: linear-gradient(135deg, var(--primary), var(--primary-dark))">
+                            Daftar Sekarang
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </a>
                     </div>
                 </div>
+            </div>
 
-                <div class="bg-primary text-white rounded-xl shadow-md p-6 text-center">
-                    <h3 class="text-lg font-bold mb-2">Tertarik Mendaftar?</h3>
-                    <p class="text-sm mb-4">Segera daftarkan diri Anda sekarang juga!</p>
-                    <a href="{{ route('ppdb') }}" class="inline-block bg-white text-primary px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition">
-                        Daftar Sekarang →
+            <!-- Jurusan Lainnya -->
+            @if($jurusanLain->count() > 0)
+            <div class="mt-12">
+                <h3 class="mb-6 text-xl font-bold text-center" style="color: var(--gray-800)">Jurusan Lainnya</h3>
+                <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+                    @foreach($jurusanLain as $item)
+                    <a href="{{ route('jurusan.show', $item->id) }}" class="p-4 text-center transition bg-white shadow-md rounded-xl hover:shadow-lg group" style="border: 1px solid var(--primary-100)">
+                        <div class="flex items-center justify-center w-16 h-16 mx-auto mb-3 rounded-full" style="background: linear-gradient(135deg, var(--primary-100) 0%, var(--primary-50) 100%)">
+                            <span class="font-bold text-primary">{{ $item->singkatan }}</span>
+                        </div>
+                        <h4 class="text-sm font-semibold transition group-hover:text-primary">{{ $item->nama_jurusan }}</h4>
                     </a>
+                    @endforeach
                 </div>
             </div>
+            @endif
         </div>
     </div>
-</div>
+</section>
 @endsection

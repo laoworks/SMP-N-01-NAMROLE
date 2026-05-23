@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Permission\Traits\HasRoles; // Tambahkan ini
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles; // Tambahkan HasRoles
 
     protected $fillable = [
         'name',
@@ -44,5 +45,26 @@ class User extends Authenticatable
     public function verifikasiPendaftar(): HasMany
     {
         return $this->hasMany(Pendaftar::class, 'verifikator_id');
+    }
+
+    // Helper method untuk mengecek role
+    public function isSuperAdmin(): bool
+    {
+        return $this->hasRole('super_admin');
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->hasRole('admin');
+    }
+
+    public function isVerifikator(): bool
+    {
+        return $this->hasRole('verifikator');
+    }
+
+    public function isGuru(): bool
+    {
+        return $this->hasRole('guru');
     }
 }

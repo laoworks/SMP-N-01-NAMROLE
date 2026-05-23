@@ -24,21 +24,19 @@ class ProfilSekolah extends Model
         'tahun_berdiri',
         'pendiri',
         'sejarah',
+        'sambutan_kepala_sekolah',
         'visi',
         'misi',
         'akreditasi',
         'tahun_akreditasi',
         'logo',
         'favicon',
-        'gambar_visi',
+        'gambar_ilustrasi',
         'gambar_misi_1',
-        'judul_misi_1',
-        'deskripsi_misi_1',
         'gambar_misi_2',
-        'judul_misi_2',
-        'deskripsi_misi_2',
         'gambar_misi_3',
-        'judul_misi_3',
-        'deskripsi_misi_3'
+        'gambar_kepala_sekolah',
+        'nama_kepala_sekolah',
+        'struktur_perpustakaan'
     ];
 }

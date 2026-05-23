@@ -1,0 +1,36 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@config './tailwind.config.js';
+
+/* Custom styles untuk admin panel */
+.fi-logo {
+    @apply text-primary-600;
+}
+
+.fi-sidebar-nav {
+    @apply bg-white;
+}
+
+.fi-sidebar-nav-item-active {
+    @apply bg-primary-50 text-primary-600;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}

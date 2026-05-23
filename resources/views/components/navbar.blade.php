@@ -11,150 +11,154 @@
     $ekskulList = Ekstrakurikuler::where('is_active', true)->limit(8)->get();
 @endphp
 
-<nav x-data="{ mobileMenuOpen: false, dropdownOpen: null }" class="bg-white shadow-md sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
-            <!-- Logo Area -->
+<nav x-data="{ mobileMenuOpen: false, dropdownOpen: null, searchOpen: false }" class="sticky top-0 z-50 bg-white shadow-md">
+    <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16 lg:h-20">
+            <!-- Logo dan Nama Sekolah -->
             <div class="flex-shrink-0">
                 <a href="{{ route('home') }}" class="flex items-center gap-2">
                     @if(isset($settings) && $settings && $settings->logo)
-                        <img src="{{ asset('storage/' . $settings->logo) }}" alt="Logo" class="h-9 w-auto">
+                        <img src="{{ asset('storage/' . $settings->logo) }}" alt="Logo" class="w-auto h-8 sm:h-9 lg:h-11">
                     @else
-                        <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background-color: var(--primary, #4361ee)">
-                            <span class="text-white font-bold text-base">S</span>
+                        <div class="flex items-center justify-center w-8 h-8 rounded-lg sm:w-9 sm:h-9 lg:w-11 lg:h-11" style="background-color: var(--primary, #4361ee)">
+                            <span class="text-sm font-bold text-white sm:text-base lg:text-lg">S</span>
                         </div>
                     @endif
-                    <span class="font-semibold text-gray-800 text-base hidden sm:block">
-                        {{ Str::limit(isset($settings) && $settings ? $settings->nama_website : 'Website Sekolah', 20) }}
-                    </span>
+                    <!-- Nama Sekolah - Selalu tampil di semua device -->
+                    <div class="flex-col">
+                        <span class="text-xs font-bold leading-tight text-gray-800 sm:text-sm lg:text-base">SMP Negeri 01</span>
+                        <span class="text-[10px] leading-tight text-gray-500 sm:text-xs lg:text-sm">Namrole</span>
+                    </div>
                 </a>
             </div>
 
-            <!-- Desktop Navigation - Center -->
-            <div class="hidden md:flex items-center space-x-1">
-                <a href="{{ route('home') }}" class="px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('home') ? 'text-primary bg-primary/10' : 'text-gray-700 hover:text-primary hover:bg-gray-50' }} transition">
+            <!-- Desktop Menu -->
+            <div class="items-center hidden space-x-1 lg:flex">
+                <a href="{{ route('home') }}" class="px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:text-primary hover:bg-gray-50 {{ request()->routeIs('home') ? 'text-primary' : '' }}">
                     Beranda
                 </a>
 
-                <!-- Profil Dropdown -->
-                <div class="relative"
-                     @mouseenter="dropdownOpen = 'profil'"
-                     @mouseleave="dropdownOpen = null">
-                    <button class="px-3 py-2 rounded-md text-sm font-medium inline-flex items-center gap-1 {{ request()->routeIs('profil*') ? 'text-primary bg-primary/10' : 'text-gray-700 hover:text-primary hover:bg-gray-50' }} transition">
-                        Profil
-                        <svg class="w-3 h-3" :class="{'rotate-180': dropdownOpen === 'profil'}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
+                <!-- Tentang Sekolah -->
+                <div class="relative" @mouseenter="dropdownOpen = 'tentang'" @mouseleave="dropdownOpen = null">
+                    <button class="px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:text-primary hover:bg-gray-50">
+                        Tentang Sekolah
                     </button>
-                    <div x-show="dropdownOpen === 'profil'"
-                         x-transition
-                         class="absolute left-0 mt-1 w-48 bg-white rounded-md shadow-lg border border-gray-100 z-50"
-                         style="display: none;">
+                    <div x-show="dropdownOpen === 'tentang'" x-transition class="absolute left-0 z-50 w-48 mt-1 bg-white border rounded-md shadow-lg" style="display: none;">
                         <div class="py-1">
-                            <a href="{{ route('profil') }}#sejarah" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary">Sejarah</a>
-                            <a href="{{ route('profil') }}#visi-misi" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary">Visi & Misi</a>
-                            <a href="{{ route('profil') }}#struktur" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary">Struktur Organisasi</a>
-                            <a href="{{ route('profil') }}#guru" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary">Guru & Staf</a>
-                            <a href="{{ route('profil') }}#fasilitas" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary">Fasilitas</a>
-                            <a href="{{ route('profil') }}#prestasi" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary">Prestasi</a>
+                            <a href="{{ route('profil') }}#sejarah" class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary">Sejarah</a>
+                            <a href="{{ route('profil') }}#visi-misi" class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary">Visi & Misi</a>
+                            <a href="{{ route('profil') }}#struktur" class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary">Struktur Organisasi</a>
+                            <a href="{{ route('profil') }}#struktur-perpustakaan" class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary">Struktur Perpustakaan</a>
+                            <a href="{{ route('profil') }}#guru" class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary">Guru & Staf</a>
+                            <a href="{{ route('profil') }}#fasilitas" class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary">Fasilitas</a>
+                            <a href="{{ route('prestasi') }}" class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary">Prestasi</a>
                         </div>
                     </div>
                 </div>
 
-                <a href="{{ route('berita') }}" class="px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('berita*') ? 'text-primary bg-primary/10' : 'text-gray-700 hover:text-primary hover:bg-gray-50' }} transition">
+                <a href="{{ route('berita') }}" class="px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:text-primary hover:bg-gray-50 {{ request()->routeIs('berita*') ? 'text-primary' : '' }}">
                     Berita
                 </a>
 
-                <!-- Galeri Dropdown -->
-                <div class="relative"
-                     @mouseenter="dropdownOpen = 'galeri'"
-                     @mouseleave="dropdownOpen = null">
-                    <button class="px-3 py-2 rounded-md text-sm font-medium inline-flex items-center gap-1 {{ request()->routeIs('galeri*') ? 'text-primary bg-primary/10' : 'text-gray-700 hover:text-primary hover:bg-gray-50' }} transition">
+                <!-- Galeri -->
+                <div class="relative" @mouseenter="dropdownOpen = 'galeri'" @mouseleave="dropdownOpen = null">
+                    <button class="px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:text-primary hover:bg-gray-50">
                         Galeri
-                        <svg class="w-3 h-3" :class="{'rotate-180': dropdownOpen === 'galeri'}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
                     </button>
-                    <div x-show="dropdownOpen === 'galeri'"
-                         x-transition
-                         class="absolute left-0 mt-1 w-48 bg-white rounded-md shadow-lg border border-gray-100 z-50"
-                         style="display: none;">
+                    <div x-show="dropdownOpen === 'galeri'" x-transition class="absolute left-0 z-50 w-40 mt-1 bg-white border rounded-md shadow-lg" style="display: none;">
                         <div class="py-1">
-                            <a href="{{ route('galeri') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary">Semua Album</a>
-                            <a href="{{ route('galeri') }}?type=foto" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary">Galeri Foto</a>
-                            <a href="{{ route('galeri') }}?type=video" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary">Galeri Video</a>
+                            <a href="{{ route('galeri') }}" class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary">Semua Album</a>
+                            <a href="{{ route('galeri') }}?type=foto" class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary">Galeri Foto</a>
+                            <a href="{{ route('galeri') }}?type=video" class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary">Galeri Video</a>
                         </div>
                     </div>
                 </div>
 
-                @if($jurusanList->count() > 0)
-                <div class="relative"
-                     @mouseenter="dropdownOpen = 'jurusan'"
-                     @mouseleave="dropdownOpen = null">
-                    <button class="px-3 py-2 rounded-md text-sm font-medium inline-flex items-center gap-1 text-gray-700 hover:text-primary hover:bg-gray-50 transition">
-                        Jurusan
-                        <svg class="w-3 h-3" :class="{'rotate-180': dropdownOpen === 'jurusan'}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
+                <!-- Akademik -->
+                <div class="relative" @mouseenter="dropdownOpen = 'akademik'" @mouseleave="dropdownOpen = null">
+                    <button class="px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:text-primary hover:bg-gray-50">
+                        Akademik
                     </button>
-                    <div x-show="dropdownOpen === 'jurusan'"
-                         x-transition
-                         class="absolute left-0 mt-1 w-56 bg-white rounded-md shadow-lg border border-gray-100 z-50"
-                         style="display: none;">
+                    <div x-show="dropdownOpen === 'akademik'" x-transition class="absolute left-0 z-50 w-48 mt-1 bg-white border rounded-md shadow-lg" style="display: none;">
                         <div class="py-1">
+                            <a href="{{ route('kalender') }}" class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary">Kalender Akademik</a>
+                            @if($jurusanList->count() > 0)
+                            <div class="my-1 border-t border-gray-100"></div>
                             @foreach($jurusanList as $jurusan)
-                            <a href="{{ route('jurusan.show', $jurusan->id) }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary">
+                            <a href="{{ route('jurusan.show', $jurusan->id) }}" class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary">
                                 {{ $jurusan->nama_jurusan }}
                             </a>
                             @endforeach
-                        </div>
-                    </div>
-                </div>
-                @endif
-
-                @if($ekskulList->count() > 0)
-                <div class="relative"
-                     @mouseenter="dropdownOpen = 'ekskul'"
-                     @mouseleave="dropdownOpen = null">
-                    <button class="px-3 py-2 rounded-md text-sm font-medium inline-flex items-center gap-1 text-gray-700 hover:text-primary hover:bg-gray-50 transition">
-                        Ekskul
-                        <svg class="w-3 h-3" :class="{'rotate-180': dropdownOpen === 'ekskul'}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                    <div x-show="dropdownOpen === 'ekskul'"
-                         x-transition
-                         class="absolute left-0 mt-1 w-56 bg-white rounded-md shadow-lg border border-gray-100 z-50"
-                         style="display: none;">
-                        <div class="py-1">
+                            @endif
+                            @if($ekskulList->count() > 0)
+                            <div class="my-1 border-t border-gray-100"></div>
                             @foreach($ekskulList as $ekskul)
-                            <a href="{{ route('ekskul.show', $ekskul->id) }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary">
+                            <a href="{{ route('ekskul.show', $ekskul->id) }}" class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary">
                                 {{ $ekskul->nama_ekskul }}
                             </a>
                             @endforeach
+                            @endif
                         </div>
                     </div>
                 </div>
-                @endif
 
-                <a href="{{ route('kontak') }}" class="px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('kontak') ? 'text-primary bg-primary/10' : 'text-gray-700 hover:text-primary hover:bg-gray-50' }} transition">
-                    Kontak
-                </a>
+                <!-- Layanan Digital -->
+                <div class="relative" @mouseenter="dropdownOpen = 'layanan'" @mouseleave="dropdownOpen = null">
+                    <button class="px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:text-primary hover:bg-gray-50">
+                        Layanan Digital
+                    </button>
+                    <div x-show="dropdownOpen === 'layanan'" x-transition class="absolute left-0 z-50 w-48 mt-1 bg-white border rounded-md shadow-lg" style="display: none;">
+                        <div class="py-1">
+                            <a href="https://cbt.smpnegeri01namrole.sch.id/login" target="_blank" class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary">CBT Sekolah</a>
+                            <a href="https://asesmen.erlanggaonline.co.id/" target="_blank" class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary">Asesmen</a>
+                            <a href="https://saranaguru.erlanggaonline.co.id/user/login" target="_blank" class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary">Sarana Guru</a>
+                            <a href="https://e-library.erlanggaonline.co.id/user/TWpVMk56RT0" target="_blank" class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary">E-Library</a>
+                        </div>
+                    </div>
+                </div>
 
-                <a href="{{ route('alumni') }}" class="px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('alumni') ? 'text-primary bg-primary/10' : 'text-gray-700 hover:text-primary hover:bg-gray-50' }} transition">
-                    Alumni
-                </a>
+                <!-- Info -->
+                <div class="relative" @mouseenter="dropdownOpen = 'info'" @mouseleave="dropdownOpen = null">
+                    <button class="px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:text-primary hover:bg-gray-50">
+                        Info
+                    </button>
+                    <div x-show="dropdownOpen === 'info'" x-transition class="absolute left-0 z-50 mt-1 bg-white border rounded-md shadow-lg w-36" style="display: none;">
+                        <div class="py-1">
+                            <a href="{{ route('kontak') }}" class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary">Kontak Kami</a>
+                            <a href="{{ route('alumni') }}" class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary">Alumni</a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Right Section -->
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2 lg:gap-3">
+                <!-- Search Button Desktop -->
+                <button @click="searchOpen = !searchOpen" class="hidden p-2 text-gray-500 rounded-md lg:block hover:text-primary hover:bg-gray-50">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </button>
+
+                <!-- Login Button -->
+                <a href="{{ url('/admin') }}" target="_blank" class="hidden px-3 py-1.5 text-sm font-medium border rounded-md lg:inline-block hover:bg-gray-50" style="border-color: var(--gray-300); color: var(--gray-700)">
+                    Login
+                </a>
+
                 <!-- PPDB Button -->
-                <a href="{{ route('ppdb') }}" class="hidden md:inline-flex px-5 py-2 rounded-full text-white text-sm font-semibold transition-all duration-300 hover:shadow-md hover:-translate-y-0.5" style="background: linear-gradient(135deg, var(--primary, #4361ee) 0%, var(--primary-dark, #3050c4) 100%)">
+                <a href="{{ route('ppdb') }}" class="hidden px-4 py-1.5 text-sm font-medium text-white rounded-full lg:inline-block hover:opacity-90" style="background-color: var(--primary, #4361ee)">
                     Pendaftaran
                 </a>
 
+                <!-- Search Button Mobile -->
+                <button @click="searchOpen = !searchOpen" class="p-2 text-gray-500 rounded-md lg:hidden hover:text-primary hover:bg-gray-50">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </button>
+
                 <!-- Mobile Menu Button -->
-                <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2 rounded-md text-gray-600 hover:bg-gray-100 transition">
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 text-gray-600 rounded-md lg:hidden hover:bg-gray-100">
                     <svg x-show="!mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
@@ -165,79 +169,130 @@
             </div>
         </div>
 
+        <!-- Search Bar Desktop -->
+        <div x-show="searchOpen" x-transition class="hidden pb-4 lg:block" style="display: none;">
+            <form action="{{ route('search') }}" method="GET" class="relative">
+                <input type="text" name="q" placeholder="Cari berita, prestasi, fasilitas, ekskul..."
+                       class="w-full px-5 py-2 pr-12 border rounded-lg focus:outline-none focus:border-primary"
+                       style="border-color: var(--gray-200)">
+                <button type="submit" class="absolute p-2 text-gray-400 transform -translate-y-1/2 right-2 top-1/2 hover:text-primary">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </button>
+            </form>
+        </div>
+
+        <!-- Search Bar Mobile -->
+        <div x-show="searchOpen" x-transition class="pb-3 lg:hidden" style="display: none;">
+            <form action="{{ route('search') }}" method="GET" class="relative">
+                <input type="text" name="q" placeholder="Cari..."
+                       class="w-full px-3 py-2 pr-8 text-sm border rounded-lg focus:outline-none focus:border-primary"
+                       style="border-color: var(--gray-200)">
+                <button type="submit" class="absolute p-1 text-gray-400 transform -translate-y-1/2 right-2 top-1/2 hover:text-primary">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </button>
+            </form>
+        </div>
+
         <!-- Mobile Menu -->
-        <div x-show="mobileMenuOpen"
-             x-transition
-             class="md:hidden py-4 border-t border-gray-100"
-             style="display: none;">
-            <div class="space-y-1">
-                <a href="{{ route('home') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('home') ? 'text-primary bg-primary/10' : 'text-gray-700 hover:bg-gray-50' }}" @click="mobileMenuOpen = false">
-                    Beranda
-                </a>
+        <div x-show="mobileMenuOpen" x-transition class="py-3 border-t lg:hidden" style="display: none;">
+            <div class="flex flex-col space-y-1">
+                <a href="{{ route('home') }}" class="px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-50" @click="mobileMenuOpen = false">Beranda</a>
 
                 <div x-data="{ open: false }">
-                    <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">
-                        <span>Profil Sekolah</span>
+                    <button @click="open = !open" class="flex justify-between w-full px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-50">
+                        <span>Tentang Sekolah</span>
                         <svg :class="{'rotate-180': open}" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </button>
                     <div x-show="open" x-collapse class="pl-4 space-y-1">
-                        <a href="{{ route('profil') }}#sejarah" class="block px-3 py-2 rounded-md text-sm text-gray-600 hover:bg-gray-50" @click="mobileMenuOpen = false">Sejarah</a>
-                        <a href="{{ route('profil') }}#visi-misi" class="block px-3 py-2 rounded-md text-sm text-gray-600 hover:bg-gray-50" @click="mobileMenuOpen = false">Visi & Misi</a>
-                        <a href="{{ route('profil') }}#struktur" class="block px-3 py-2 rounded-md text-sm text-gray-600 hover:bg-gray-50" @click="mobileMenuOpen = false">Struktur Organisasi</a>
-                        <a href="{{ route('profil') }}#guru" class="block px-3 py-2 rounded-md text-sm text-gray-600 hover:bg-gray-50" @click="mobileMenuOpen = false">Guru & Staf</a>
-                        <a href="{{ route('profil') }}#fasilitas" class="block px-3 py-2 rounded-md text-sm text-gray-600 hover:bg-gray-50" @click="mobileMenuOpen = false">Fasilitas</a>
+                        <a href="{{ route('profil') }}#sejarah" class="block px-3 py-1.5 text-sm text-gray-600 rounded-md hover:bg-gray-50" @click="mobileMenuOpen = false">Sejarah</a>
+                        <a href="{{ route('profil') }}#visi-misi" class="block px-3 py-1.5 text-sm text-gray-600 rounded-md hover:bg-gray-50" @click="mobileMenuOpen = false">Visi & Misi</a>
+                        <a href="{{ route('profil') }}#struktur" class="block px-3 py-1.5 text-sm text-gray-600 rounded-md hover:bg-gray-50" @click="mobileMenuOpen = false">Struktur</a>
+                        <a href="{{ route('profil') }}#struktur-perpustakaan" class="block px-3 py-1.5 text-sm text-gray-600 rounded-md hover:bg-gray-50" @click="mobileMenuOpen = false">Struktur Perpustakaan</a>
+                        <a href="{{ route('profil') }}#guru" class="block px-3 py-1.5 text-sm text-gray-600 rounded-md hover:bg-gray-50" @click="mobileMenuOpen = false">Guru & Staf</a>
+                        <a href="{{ route('profil') }}#fasilitas" class="block px-3 py-1.5 text-sm text-gray-600 rounded-md hover:bg-gray-50" @click="mobileMenuOpen = false">Fasilitas</a>
+                        <a href="{{ route('prestasi') }}" class="block px-3 py-1.5 text-sm text-gray-600 rounded-md hover:bg-gray-50" @click="mobileMenuOpen = false">Prestasi</a>
                     </div>
                 </div>
 
-                <a href="{{ route('berita') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('berita*') ? 'text-primary bg-primary/10' : 'text-gray-700 hover:bg-gray-50' }}" @click="mobileMenuOpen = false">
-                    Berita & Pengumuman
-                </a>
+                <a href="{{ route('berita') }}" class="px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-50" @click="mobileMenuOpen = false">Berita</a>
 
                 <div x-data="{ open: false }">
-                    <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">
+                    <button @click="open = !open" class="flex justify-between w-full px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-50">
                         <span>Galeri</span>
                         <svg :class="{'rotate-180': open}" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </button>
                     <div x-show="open" x-collapse class="pl-4 space-y-1">
-                        <a href="{{ route('galeri') }}" class="block px-3 py-2 rounded-md text-sm text-gray-600 hover:bg-gray-50" @click="mobileMenuOpen = false">Semua Album</a>
-                        <a href="{{ route('galeri') }}?type=foto" class="block px-3 py-2 rounded-md text-sm text-gray-600 hover:bg-gray-50" @click="mobileMenuOpen = false">Galeri Foto</a>
-                        <a href="{{ route('galeri') }}?type=video" class="block px-3 py-2 rounded-md text-sm text-gray-600 hover:bg-gray-50" @click="mobileMenuOpen = false">Galeri Video</a>
+                        <a href="{{ route('galeri') }}" class="block px-3 py-1.5 text-sm text-gray-600 rounded-md hover:bg-gray-50" @click="mobileMenuOpen = false">Semua Album</a>
+                        <a href="{{ route('galeri') }}?type=foto" class="block px-3 py-1.5 text-sm text-gray-600 rounded-md hover:bg-gray-50" @click="mobileMenuOpen = false">Galeri Foto</a>
+                        <a href="{{ route('galeri') }}?type=video" class="block px-3 py-1.5 text-sm text-gray-600 rounded-md hover:bg-gray-50" @click="mobileMenuOpen = false">Galeri Video</a>
                     </div>
                 </div>
 
-                @if($jurusanList->count() > 0)
                 <div x-data="{ open: false }">
-                    <button @click="open = !open" class="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">
-                        <span>Jurusan</span>
+                    <button @click="open = !open" class="flex justify-between w-full px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-50">
+                        <span>Akademik</span>
                         <svg :class="{'rotate-180': open}" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </button>
                     <div x-show="open" x-collapse class="pl-4 space-y-1">
+                        <a href="{{ route('kalender') }}" class="block px-3 py-1.5 text-sm text-gray-600 rounded-md hover:bg-gray-50" @click="mobileMenuOpen = false">Kalender Akademik</a>
                         @foreach($jurusanList as $jurusan)
-                        <a href="{{ route('jurusan.show', $jurusan->id) }}" class="block px-3 py-2 rounded-md text-sm text-gray-600 hover:bg-gray-50" @click="mobileMenuOpen = false">
+                        <a href="{{ route('jurusan.show', $jurusan->id) }}" class="block px-3 py-1.5 text-sm text-gray-600 rounded-md hover:bg-gray-50" @click="mobileMenuOpen = false">
                             {{ $jurusan->nama_jurusan }}
+                        </a>
+                        @endforeach
+                        @foreach($ekskulList as $ekskul)
+                        <a href="{{ route('ekskul.show', $ekskul->id) }}" class="block px-3 py-1.5 text-sm text-gray-600 rounded-md hover:bg-gray-50" @click="mobileMenuOpen = false">
+                            {{ $ekskul->nama_ekskul }}
                         </a>
                         @endforeach
                     </div>
                 </div>
-                @endif
 
-                <a href="{{ route('kontak') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('kontak') ? 'text-primary bg-primary/10' : 'text-gray-700 hover:bg-gray-50' }}" @click="mobileMenuOpen = false">
-                    Kontak
+                <div x-data="{ open: false }">
+                    <button @click="open = !open" class="flex justify-between w-full px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-50">
+                        <span>Layanan Digital</span>
+                        <svg :class="{'rotate-180': open}" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div x-show="open" x-collapse class="pl-4 space-y-1">
+                        <a href="https://cbt.smpnegeri01namrole.sch.id/login" target="_blank" class="block px-3 py-1.5 text-sm text-gray-600 rounded-md hover:bg-gray-50" @click="mobileMenuOpen = false">CBT Sekolah</a>
+                        <a href="https://asesmen.erlanggaonline.co.id/" target="_blank" class="block px-3 py-1.5 text-sm text-gray-600 rounded-md hover:bg-gray-50" @click="mobileMenuOpen = false">Asesmen</a>
+                        <a href="https://saranaguru.erlanggaonline.co.id/user/login" target="_blank" class="block px-3 py-1.5 text-sm text-gray-600 rounded-md hover:bg-gray-50" @click="mobileMenuOpen = false">Sarana Guru</a>
+                        <a href="https://e-library.erlanggaonline.co.id/user/TWpVMk56RT0" target="_blank" class="block px-3 py-1.5 text-sm text-gray-600 rounded-md hover:bg-gray-50" @click="mobileMenuOpen = false">E-Library</a>
+                    </div>
+                </div>
+
+                <div x-data="{ open: false }">
+                    <button @click="open = !open" class="flex justify-between w-full px-3 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-50">
+                        <span>Info</span>
+                        <svg :class="{'rotate-180': open}" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div x-show="open" x-collapse class="pl-4 space-y-1">
+                        <a href="{{ route('kontak') }}" class="block px-3 py-1.5 text-sm text-gray-600 rounded-md hover:bg-gray-50" @click="mobileMenuOpen = false">Kontak Kami</a>
+                        <a href="{{ route('alumni') }}" class="block px-3 py-1.5 text-sm text-gray-600 rounded-md hover:bg-gray-50" @click="mobileMenuOpen = false">Alumni</a>
+                    </div>
+                </div>
+
+                <a href="{{ url('/admin') }}" target="_blank" class="px-3 py-2 text-sm font-medium text-center text-gray-700 border rounded-md hover:bg-gray-50" style="border-color: var(--gray-300)" @click="mobileMenuOpen = false">
+                    Login Admin
                 </a>
 
-                <a href="{{ route('alumni') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('alumni') ? 'text-primary bg-primary/10' : 'text-gray-700 hover:bg-gray-50' }}" @click="mobileMenuOpen = false">
-                    Alumni
-                </a>
-
-                <div class="pt-4 mt-2 border-t border-gray-100">
-                    <a href="{{ route('ppdb') }}" class="block w-full text-center px-4 py-3 rounded-lg font-semibold text-white" style="background: linear-gradient(135deg, var(--primary, #4361ee) 0%, var(--primary-dark, #3050c4) 100%)" @click="mobileMenuOpen = false">
-                        Pendaftaran PPDB Online
+                <div class="pt-2 mt-1">
+                    <a href="{{ route('ppdb') }}" class="block w-full px-4 py-2 text-sm font-medium text-center text-white rounded-md" style="background-color: var(--primary, #4361ee)" @click="mobileMenuOpen = false">
+                        Pendaftaran PPDB
                     </a>
                 </div>
             </div>

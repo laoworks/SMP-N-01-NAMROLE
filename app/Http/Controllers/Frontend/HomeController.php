@@ -14,9 +14,7 @@ use App\Models\Guru;
 use App\Models\ProfilSekolah;
 use App\Models\Pendaftar;
 use App\Models\Album;
-use App\Models\GaleriFoto;
 use App\Models\GaleriVideo;
-use App\Models\PesanKontak;
 
 class HomeController extends Controller
 {
@@ -70,10 +68,24 @@ class HomeController extends Controller
         // Fasilitas
         $fasilitas = Fasilitas::where('status', 'aktif')->limit(6)->get();
 
-        // Kepala Sekolah
+        // Kepala Sekolah (dari tabel guru)
         $kepalaSekolah = Guru::where('jabatan', 'like', '%Kepala Sekolah%')
             ->orWhere('jabatan', 'like', '%Kepala%')
             ->first();
+
+        // Nama kepala sekolah dari profil (override)
+        $namaKepalaSekolah = $profil && $profil->nama_kepala_sekolah
+            ? $profil->nama_kepala_sekolah
+            : ($kepalaSekolah ? $kepalaSekolah->nama_lengkap : 'Kepala Sekolah');
+
+        // Sambutan dan foto kepala sekolah dari profil
+        $sambutan = $profil && $profil->sambutan_kepala_sekolah
+            ? $profil->sambutan_kepala_sekolah
+            : null;
+
+        $fotoKepalaSekolah = $profil && $profil->gambar_kepala_sekolah
+            ? $profil->gambar_kepala_sekolah
+            : ($kepalaSekolah && $kepalaSekolah->foto ? $kepalaSekolah->foto : null);
 
         // Album Foto untuk Galeri
         $albums = Album::where('is_active', true)
@@ -101,7 +113,10 @@ class HomeController extends Controller
             'statistik',
             'prestasiCount',
             'albums',
-            'videos'
+            'videos',
+            'sambutan',
+            'fotoKepalaSekolah',
+            'namaKepalaSekolah'
         ));
     }
 }

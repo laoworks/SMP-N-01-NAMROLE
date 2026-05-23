@@ -11,7 +11,9 @@ class JurusanController extends Controller
     public function index()
     {
         $settings = PengaturanWebsite::first();
-        $jurusans = Jurusan::where('is_active', true)->orderBy('urutan')->get();
+        $jurusans = Jurusan::where('is_active', true)
+            ->orderBy('urutan')
+            ->get();
 
         return view('frontend.jurusan.index', compact('settings', 'jurusans'));
     }
@@ -20,8 +22,13 @@ class JurusanController extends Controller
     {
         $settings = PengaturanWebsite::first();
         $jurusan = Jurusan::findOrFail($id);
-        $jurusans = Jurusan::where('is_active', true)->orderBy('urutan')->get();
 
-        return view('frontend.jurusan.show', compact('settings', 'jurusan', 'jurusans'));
+        $jurusanLain = Jurusan::where('is_active', true)
+            ->where('id', '!=', $id)
+            ->orderBy('urutan')
+            ->limit(3)
+            ->get();
+
+        return view('frontend.jurusan.show', compact('settings', 'jurusan', 'jurusanLain'));
     }
 }

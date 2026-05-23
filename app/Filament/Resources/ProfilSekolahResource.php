@@ -117,7 +117,7 @@ class ProfilSekolahResource extends Resource
                                     ->columnSpanFull(),
                             ])->columns(2),
 
-                        // TAB 4: Visi & Misi (Tanpa Petunjuk)
+                        // TAB 4: Visi & Misi (3 Gambar)
                         Forms\Components\Tabs\Tab::make('Visi & Misi')
                             ->icon('heroicon-o-eye')
                             ->schema([
@@ -127,20 +127,70 @@ class ProfilSekolahResource extends Resource
                                             ->label('Gambar 1')
                                             ->image()
                                             ->directory('sekolah/visi-misi')
-                                            ->helperText('Upload gambar pertama'),
-
+                                            ->helperText('Upload gambar pertama untuk Visi & Misi'),
                                         Forms\Components\FileUpload::make('gambar_misi_2')
                                             ->label('Gambar 2')
                                             ->image()
                                             ->directory('sekolah/visi-misi')
-                                            ->helperText('Upload gambar kedua'),
-
+                                            ->helperText('Upload gambar kedua untuk Visi & Misi'),
                                         Forms\Components\FileUpload::make('gambar_misi_3')
                                             ->label('Gambar 3')
                                             ->image()
                                             ->directory('sekolah/visi-misi')
-                                            ->helperText('Upload gambar ketiga'),
+                                            ->helperText('Upload gambar ketiga untuk Visi & Misi'),
                                     ])->columns(1),
+                            ]),
+
+                        // TAB 5: Sambutan Kepala Sekolah
+                        Forms\Components\Tabs\Tab::make('Sambutan Kepala Sekolah')
+                            ->icon('heroicon-o-chat-bubble-left-right')
+                            ->schema([
+                                Forms\Components\RichEditor::make('sambutan_kepala_sekolah')
+                                    ->label('Sambutan Kepala Sekolah')
+                                    ->helperText('Tuliskan sambutan dari kepala sekolah untuk ditampilkan di halaman depan')
+                                    ->toolbarButtons([
+                                        'bold',
+                                        'italic',
+                                        'underline',
+                                        'strike',
+                                        'bulletList',
+                                        'orderedList',
+                                        'link',
+                                        'alignLeft',
+                                        'alignCenter',
+                                        'alignRight',
+                                        'h2',
+                                        'h3',
+                                        'blockquote'
+                                    ])
+                                    ->columnSpanFull(),
+                                Forms\Components\FileUpload::make('gambar_kepala_sekolah')
+                                    ->label('Foto Kepala Sekolah')
+                                    ->image()
+                                    ->directory('sekolah/kepala-sekolah')
+                                    ->imageEditor()
+                                    ->imageEditorAspectRatios(['1:1'])
+                                    ->helperText('Upload foto Kepala Sekolah untuk ditampilkan di sambutan (ukuran: 400x400px)')
+                                    ->columnSpanFull(),
+                                Forms\Components\TextInput::make('nama_kepala_sekolah')
+                                    ->label('Nama Kepala Sekolah (Override)')
+                                    ->helperText('Isi jika ingin menampilkan nama yang berbeda dari data Guru')
+                                    ->maxLength(100)
+                                    ->columnSpanFull(),
+                            ]),
+
+                        // TAB 6: Struktur Organisasi Perpustakaan (TANPA PETUNJUK)
+                        Forms\Components\Tabs\Tab::make('Struktur Perpustakaan')
+                            ->icon('heroicon-o-book-open')
+                            ->schema([
+                                Forms\Components\FileUpload::make('struktur_perpustakaan')
+                                    ->label('Gambar Struktur Organisasi Perpustakaan')
+                                    ->image()
+                                    ->directory('sekolah/struktur')
+                                    ->imageEditor()
+                                    ->imageEditorAspectRatios(['16:9', '4:3', 'A4'])
+                                    ->helperText('Upload gambar struktur organisasi perpustakaan (ukuran: 800x600px, maks 2MB)')
+                                    ->columnSpanFull(),
                             ]),
                     ])
                     ->columnSpanFull(),

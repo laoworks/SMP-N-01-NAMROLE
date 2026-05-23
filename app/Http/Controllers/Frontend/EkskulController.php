@@ -11,7 +11,9 @@ class EkskulController extends Controller
     public function index()
     {
         $settings = PengaturanWebsite::first();
-        $ekskuls = Ekstrakurikuler::where('is_active', true)->get();
+        $ekskuls = Ekstrakurikuler::where('is_active', true)
+            ->with('pembina')
+            ->get();
 
         return view('frontend.ekskul.index', compact('settings', 'ekskuls'));
     }
@@ -20,8 +22,12 @@ class EkskulController extends Controller
     {
         $settings = PengaturanWebsite::first();
         $ekskul = Ekstrakurikuler::with('pembina')->findOrFail($id);
-        $ekskuls = Ekstrakurikuler::where('is_active', true)->limit(6)->get();
 
-        return view('frontend.ekskul.show', compact('settings', 'ekskul', 'ekskuls'));
+        $ekskulLain = Ekstrakurikuler::where('is_active', true)
+            ->where('id', '!=', $id)
+            ->limit(4)
+            ->get();
+
+        return view('frontend.ekskul.show', compact('settings', 'ekskul', 'ekskulLain'));
     }
 }

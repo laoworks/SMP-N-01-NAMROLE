@@ -15,23 +15,26 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // User Admin - Gunakan kolom 'name' bukan 'username'
+        // ==================== USER ADMIN ====================
         User::create([
-            'name' => 'Administrator',  // Ganti 'username' dengan 'name'
+            'name' => 'Administrator',
             'email' => 'admin@sekolah.sch.id',
             'password' => Hash::make('admin123'),
             'role' => 'superadmin',
             'is_active' => true,
         ]);
 
-        // Pengaturan WhatsApp
+        // ==================== PENGATURAN WEBSITE ====================
+        $this->call(PengaturanWebsiteSeeder::class);
+
+        // ==================== PENGATURAN WHATSAPP ====================
         PengaturanWa::create([
             'nomor_wa' => '6281234567890',
             'pesan_otomatis' => 'Halo, terima kasih telah menghubungi kami. Silakan kirim pertanyaan Anda dan kami akan segera merespon.',
             'is_active' => true,
         ]);
 
-        // Kategori Berita
+        // ==================== KATEGORI BERITA ====================
         $kategoris = ['Akademik', 'Non-Akademik', 'Pengumuman', 'Prestasi', 'Kegiatan'];
         foreach ($kategoris as $kategori) {
             KategoriBerita::create([
@@ -40,7 +43,7 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // Jurusan
+        // ==================== JURUSAN ====================
         $jurusans = [
             ['kode_jurusan' => 'RPL', 'nama_jurusan' => 'Rekayasa Perangkat Lunak', 'singkatan' => 'RPL', 'deskripsi' => 'Mempelajari pengembangan software, web, dan mobile app', 'is_active' => true],
             ['kode_jurusan' => 'TKJ', 'nama_jurusan' => 'Teknik Komputer dan Jaringan', 'singkatan' => 'TKJ', 'deskripsi' => 'Mempelajari jaringan komputer dan administrasi server', 'is_active' => true],
@@ -50,7 +53,7 @@ class DatabaseSeeder extends Seeder
             Jurusan::create($jurusan);
         }
 
-        // Fasilitas
+        // ==================== FASILITAS ====================
         $fasilitas = [
             ['nama_fasilitas' => 'Laboratorium Komputer', 'deskripsi' => 'Lab dengan 40 unit PC spesifikasi tinggi', 'jumlah' => 1, 'kondisi' => 'Baik', 'status' => 'aktif'],
             ['nama_fasilitas' => 'Perpustakaan', 'deskripsi' => 'Koleksi 5000+ buku dan area baca nyaman', 'jumlah' => 1, 'kondisi' => 'Baik', 'status' => 'aktif'],
@@ -62,7 +65,7 @@ class DatabaseSeeder extends Seeder
             Fasilitas::create($item);
         }
 
-        // Ekstrakurikuler
+        // ==================== EKSTRAKURIKULER ====================
         $ekskuls = [
             ['nama_ekskul' => 'Pramuka', 'deskripsi' => 'Kegiatan kepramukaan untuk membentuk karakter', 'jadwal_latihan' => 'Sabtu, 07:00 - 10:00', 'is_active' => true],
             ['nama_ekskul' => 'Futsal', 'deskripsi' => 'Olahraga futsal untuk mengembangkan bakat sepakbola', 'jadwal_latihan' => 'Rabu & Jumat, 15:00 - 17:00', 'is_active' => true],
@@ -73,6 +76,11 @@ class DatabaseSeeder extends Seeder
             Ekstrakurikuler::create($ekskul);
         }
 
+        // ==================== ROLE & PERMISSION ====================
+        $this->call(RolePermissionSeeder::class);
+
         $this->command->info('✅ Database seeding completed!');
+        $this->command->info('📝 Login email: admin@sekolah.sch.id');
+        $this->command->info('🔑 Password: admin123');
     }
 }
