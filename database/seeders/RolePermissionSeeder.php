@@ -11,9 +11,10 @@ class RolePermissionSeeder extends Seeder
 {
     public function run(): void
     {
+        // Reset cached roles and permissions
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // Buat Permission untuk setiap Resource
+        // ========== BUAT PERMISSIONS ==========
         $permissions = [
             // User Management
             'view_user',
@@ -49,7 +50,7 @@ class RolePermissionSeeder extends Seeder
             'edit_fasilitas',
             'delete_fasilitas',
 
-            // Ekskul
+            // Ekstrakurikuler
             'view_ekskul',
             'create_ekskul',
             'edit_ekskul',
@@ -67,7 +68,7 @@ class RolePermissionSeeder extends Seeder
             'edit_prestasi',
             'delete_prestasi',
 
-            // Galeri
+            // Album & Galeri
             'view_album',
             'create_album',
             'edit_album',
@@ -120,19 +121,20 @@ class RolePermissionSeeder extends Seeder
         ];
 
         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
+            Permission::firstOrCreate(['name' => $permission, 'guard_name' => 'web']);
         }
 
-        // Buat Role
-        $superAdmin = Role::create(['name' => 'super_admin']);
-        $admin = Role::create(['name' => 'admin']);
-        $verifikator = Role::create(['name' => 'verifikator']);
-        $guru = Role::create(['name' => 'guru']);
+        $this->command->info('✅ ' . count($permissions) . ' permissions created.');
 
-        // Assign Permission ke Role
-        $superAdmin->givePermissionTo(Permission::all());
+        // ========== BUAT ROLE ==========
+        // Super Admin
+        $superAdmin = Role::firstOrCreate(['name' => 'super_admin', 'guard_name' => 'web']);
+        $superAdmin->syncPermissions(Permission::all());
+        $this->command->info('✅ Super Admin role created with all permissions.');
 
-        $admin->givePermissionTo([
+        // Admin
+        $admin = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
+        $adminPermissions = Permission::whereIn('name', [
             'view_berita',
             'create_berita',
             'edit_berita',
@@ -153,16 +155,32 @@ class RolePermissionSeeder extends Seeder
             'create_slider',
             'edit_slider',
             'delete_slider',
-        ]);
+        ])->get();
+        $admin->syncPermissions($adminPermissions);
+        $this->command->info('✅ Admin role created.');
 
-        $verifikator->givePermissionTo(['view_pendaftar', 'verifikasi_pendaftar']);
+        // Verifikator
+        $verifikator = Role::firstOrCreate(['name' => 'verifikator', 'guard_name' => 'web']);
+        $verifikator->syncPermissions(['view_pendaftar', 'verifikasi_pendaftar']);
+        $this->command->info('✅ Verifikator role created.');
 
-        $guru->givePermissionTo(['view_berita', 'view_prestasi']);
+        // Guru
+        $guru = Role::firstOrCreate(['name' => 'guru', 'guard_name' => 'web']);
+        $guru->syncPermissions(['view_berita', 'view_prestasi']);
+        $this->command->info('✅ Guru role created.');
 
-        // Assign Role ke User yang sudah ada
-        $user = User::first();
+        // ========== ASSIGN ROLE KE USER ==========
+        $user = User::where('email', 'admin@sekolah.sch.id')->first();
+
         if ($user) {
             $user->assignRole('super_admin');
+            $user->is_active = true;
+            $user->save();
+            $this->command->info('✅ Super Admin role assigned to ' . $user->email);
+        } else {
+            $this->command->warn('⚠️ Admin user not found. Run database seeder first.');
         }
+
+        $this->command->info('🎉 Role and Permission seeding completed!');
     }
 }
